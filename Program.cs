@@ -2,7 +2,21 @@
 {
     internal class Program
     {
-        static int boardSize = 8;
+        static char[,] board;
+        static void InitializeBoard()
+        {
+            board = new char[8, 8]
+            {
+                { '-', 'b', '-', 'b', '-', 'b', '-', 'b' },
+                { 'b', '-', 'b', '-', 'b', '-', 'b', '-' },
+                { '-', 'b', '-', 'b', '-', 'b', '-', 'b' },
+                { '-', '-', '-', '-', '-', '-', '-', '-' },
+                { '-', '-', '-', '-', '-', '-', '-', '-' },
+                { 'w', '-', 'w', '-', 'w', '-', 'w', '-' },
+                { '-', 'w', '-', 'w', '-', 'w', '-', 'w' },
+                { 'w', '-', 'w', '-', 'w', '-', 'w', '-' },
+            };
+        }
         static void Main(string[] args)
         {
             bool gamePlay = false;
