@@ -2,26 +2,51 @@
 {
     internal class Program
     {
-        static char[,]? board;
+        private const int BoardSize = 8;
+
+        static char[,] board;
         static void InitializeBoard()
         {
-            board = new char[8, 8]
+            board = new char[BoardSize, BoardSize]
             {
-                { '-', 'b', '-', 'b', '-', 'b', '-', 'b' },
-                { 'b', '-', 'b', '-', 'b', '-', 'b', '-' },
-                { '-', 'b', '-', 'b', '-', 'b', '-', 'b' },
+                { '.-', 'B', '-', 'B', '-', 'B', '-', 'B' },
+                { 'B', '-', 'B', '-', 'B', '-', 'B', '-' },
                 { '-', '-', '-', '-', '-', '-', '-', '-' },
                 { '-', '-', '-', '-', '-', '-', '-', '-' },
-                { 'w', '-', 'w', '-', 'w', '-', 'w', '-' },
-                { '-', 'w', '-', 'w', '-', 'w', '-', 'w' },
-                { 'w', '-', 'w', '-', 'w', '-', 'w', '-' },
+                { '-', '-', '-', '-', '-', '-', '-', '-' },
+                { '-', '-', '-', '-', '-', '-', '-', '-' },
+                { '-', 'W', '-', 'W', '-', 'W', '-', 'W' },
+                { 'W', '-', 'W', '-', 'W', '-', 'W', '-' },
             };
-            Console.WriteLine(board[0, 1]);
+        }
+
+        static void DrawBoard()
+        {
+            Console.Clear();
+            Console.WriteLine("   A B C D E F G H");
+            Console.WriteLine("  -----------------");
+            for (int row = 0; row < 8; row++)
+            {
+                Console.Write(row + " |");
+                for (int col = 0; col < 8; col++)
+                {
+                    Console.Write(board[row, col] + "|");
+                }
+                Console.WriteLine();
+                Console.WriteLine("  -----------------");
+            }
+        }
+        public enum PieceColor
+        {
+            None,
+            White,
+            Black
         }
         static void Main(string[] args)
         {
             bool gamePlay = false;
             InitializeBoard();
+            DrawBoard();
             Console.WriteLine("Checkers Game");
             Console.WriteLine("Juta Kozińska, Grzegorz Łabojko, Radosław Rocławski");
             while (gamePlay)
