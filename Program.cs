@@ -46,9 +46,11 @@ namespace checkers
 
         }
 
-        static void GetUserStartingCoordinates(char currentUser)
+        static Tuple<int, int> GetUserStartingCoordinates(char currentUser)
         {
             bool validUserEntry = false;
+            int x = 0;
+            int y = 0;
             while (!validUserEntry)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -61,10 +63,8 @@ namespace checkers
 
                     if (validateUserInput(capitalizedInput))
                     {
-                        Console.WriteLine("Prawidłowe pole literowe");
-                        int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                        int y = SwitchUserInput(capitalizedInput[0]);
-                        Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                        x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        y = SwitchUserInput(capitalizedInput[0]);
                         validUserEntry = true;
                     }
                     else
@@ -83,11 +83,14 @@ namespace checkers
                     Console.WriteLine("Nieprawidłowy format pola!");
                 }
             }
+            return Tuple.Create(x, y); 
         }
 
-        static void GetUserTargetCoordinates(char currentUser)
+        static Tuple<int, int> GetUserTargetCoordinates(char currentUser)
         {
             bool validUserEntry = false;
+            int x = 0;
+            int y = 0;
             while (!validUserEntry)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -100,10 +103,8 @@ namespace checkers
 
                     if (validateUserInput(capitalizedInput))
                     {
-                        Console.WriteLine("Prawidłowe pole literowe");
-                        int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                        int y = SwitchUserInput(capitalizedInput[0]);
-                        Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                        x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        y = SwitchUserInput(capitalizedInput[0]);
                         validUserEntry = true;
                     }
                     else
@@ -118,6 +119,7 @@ namespace checkers
                     Console.WriteLine("Nieprawidłowy format pola!");
                 }
             }
+            return Tuple.Create(x, y);
         }
 
         static bool validateUserInput(string userInput)
@@ -173,8 +175,10 @@ namespace checkers
             }
             InitializeBoard();
             DrawBoard(currentUser);
-            GetUserStartingCoordinates(currentUser);
-            GetUserTargetCoordinates(currentUser);
+            Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentUser);
+            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentUser);
+            Console.WriteLine(startingCoordinates.Item1);
+            ///reach the values by startingCoordinates.Item1, Item2, etc.
         }
     }
 }
