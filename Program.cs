@@ -44,7 +44,7 @@ namespace checkers
 
         }
 
-        static void GetUserStartingPoint()
+        static void GetUserStartingPoint(char currentUser)
         {
             Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
             var userInput = Console.ReadLine();
@@ -55,7 +55,7 @@ namespace checkers
 
         }
 
-        static void GetUserEndingPoint()
+        static void GetUserEndingPoint(char currentUser)
         {
             Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
             var userInput = Console.ReadLine();
@@ -109,8 +109,8 @@ namespace checkers
             }
             InitializeBoard();
             DrawBoard();
-            GetUserStartingPoint();
-            GetUserEndingPoint();
+            GetUserStartingPoint('W');
+            GetUserEndingPoint('W');
         }
     }
 }
