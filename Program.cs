@@ -4,7 +4,7 @@ namespace checkers
 {
     internal class Program
     {
-        private const int BoardSize = 8;
+        private readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
 
         static char[,] board;
 
@@ -48,7 +48,8 @@ namespace checkers
         {
             Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
             var userInput = Console.ReadLine();
-            int x = SwitchUserInput(userInput[0]);
+
+            int x = SwitchUserInput(Char.ToUpper(userInput[0]));
             int y = int.Parse(userInput[1].ToString()) - 1;
             Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
 
