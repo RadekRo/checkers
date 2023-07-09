@@ -23,7 +23,7 @@ namespace checkers
                 { 'W', '-', 'W', '-', 'W', '-', 'W', '-' },
             };
         }
-        static void DrawBoard()
+        static void DrawBoard(char currentPlayer)
         {
             Console.Clear();
             Console.WriteLine("   A B C D E F G H");
@@ -38,15 +38,18 @@ namespace checkers
                 Console.WriteLine();
                 Console.WriteLine("  -----------------");
             }
-            Console.WriteLine("Checkers Game by:");
-            Console.WriteLine("Juta Kozińska, Grzegorz Łabojko, Radosław Rocławski");
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("\u25A0 RUCH GRACZA: " + currentPlayer);
+            Console.WriteLine("---------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
 
-        static void GetUserStartingPoint(char currentUser)
+        static void GetUserStartingCoordinates(char currentUser)
         {
-            Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
+            Console.Write("Podaj współrzędne pionka, którym chcesz się ruszyć (np. 'A1', 'H8'): ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             try
             {
                 var userInput = Console.ReadLine();
@@ -70,9 +73,11 @@ namespace checkers
             }
 }
 
-        static void GetUserEndingPoint(char currentUser)
+        static void GetUserTargetCoordinates(char currentUser)
         {
-            Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Podaj współrzędne pola, na którym chcesz postawić pionek (np. 'A1', 'H8'): ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             try
             {
                 var userInput = Console.ReadLine();
@@ -147,9 +152,9 @@ namespace checkers
                 /// main game loop curently set to unactive via gamePlay = false;
             }
             InitializeBoard();
-            DrawBoard();
-            GetUserStartingPoint(currentUser);
-            GetUserEndingPoint(currentUser);
+            DrawBoard(currentUser);
+            GetUserStartingCoordinates(currentUser);
+            GetUserTargetCoordinates(currentUser);
         }
     }
 }
