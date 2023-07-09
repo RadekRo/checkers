@@ -4,8 +4,8 @@ namespace checkers
 {
     internal class Program
     {
-        static readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-        private const int BoardSize = 8;
+        static readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+        private const int BoardSize = 10;
 
         static char[,]? board;
 
@@ -13,30 +13,41 @@ namespace checkers
         {
             board = new char[BoardSize, BoardSize]
             {
-                { '-', 'B', '-', 'B', '-', 'B', '-', 'B' },
-                { 'B', '-', 'B', '-', 'B', '-', 'B', '-' },
-                { '-', '-', '-', '-', '-', '-', '-', '-' },
-                { '-', '-', '-', '-', '-', '-', '-', '-' },
-                { '-', '-', '-', '-', '-', '-', '-', '-' },
-                { '-', '-', '-', '-', '-', '-', '-', '-' },
-                { '-', 'W', '-', 'W', '-', 'W', '-', 'W' },
-                { 'W', '-', 'W', '-', 'W', '-', 'W', '-' },
+                { '-', 'B', '-', 'B', '-', 'B', '-', 'B', '-', 'B' },
+                { 'B', '-', 'B', '-', 'B', '-', 'B', '-', 'B', '-' },
+                { '-', 'B', '-', 'B', '-', 'B', '-', 'B', '-', 'B' },
+                { 'B', '-', 'B', '-', 'B', '-', 'B', '-', 'B', '-' },
+                { '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' },
+                { '-', '-', '-', '-', '-', '-', '-', '-', '-', '-' },
+                { '-', 'W', '-', 'W', '-', 'W', '-', 'W', '-', 'W' },
+                { 'W', '-', 'W', '-', 'W', '-', 'W', '-', 'W', '-' },
+                { '-', 'W', '-', 'W', '-', 'W', '-', 'W', '-', 'W' },
+                { 'W', '-', 'W', '-', 'W', '-', 'W', '-', 'W', '-' }
             };
         }
         static void DrawBoard(char currentPlayer)
         {
             Console.Clear();
-            Console.WriteLine("   A B C D E F G H");
-            Console.WriteLine("  -----------------");
+            Console.WriteLine("     A   B   C   D   E   F   G   H   I   J");
+            Console.WriteLine("   -----------------------------------------");
             for (int row = 0; row < BoardSize; row++)
             {
-                Console.Write(row + 1 + " |");
+                int boardsRow = row + 1;
+                if (boardsRow == 10)
+                {
+                    Console.Write(boardsRow + " | ");
+                }
+                else
+                {
+                    Console.Write(boardsRow + "  | ");
+                }
+
                 for (int col = 0; col < BoardSize; col++)
                 {
-                    Console.Write(board[row, col] + "|");
+                    Console.Write(board[row, col] + " | ");
                 }
                 Console.WriteLine();
-                Console.WriteLine("  -----------------");
+                Console.WriteLine("   -----------------------------------------");
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("---------------------------------------------------");
@@ -65,6 +76,7 @@ namespace checkers
                     {
                         x = int.Parse(capitalizedInput[1].ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
+
                         if (validatePlayerField(currentPlayer, board[x, y]))
                         {
                             validUserEntry = true;
@@ -143,23 +155,18 @@ namespace checkers
         }
         static bool validateUserInput(string userInput)
         {
-            if (!string.IsNullOrEmpty(userInput) 
-                && (avaliableLetters.Contains(userInput[0]))
-                && int.Parse(userInput.Substring(1)) <= BoardSize
-                && int.Parse(userInput.Substring(1)) > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (!string.IsNullOrEmpty(userInput)
+                    && (avaliableLetters.Contains(userInput[0]))
+                    && int.Parse(userInput.Substring(1)) <= BoardSize
+                    && int.Parse(userInput.Substring(1)) > 0);
         }
 
         static bool validatePlayerField(char currentPlayer, char chosenField)
         {
             return currentPlayer == chosenField;
         }
+
+        ///static Tuple<string, string>
 
         static int SwitchUserInput(char userHorizontalCoordinate)
         {
