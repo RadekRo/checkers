@@ -74,7 +74,7 @@ namespace checkers
 
                     if (validateUserInput(capitalizedInput))
                     {
-                        x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
 
                         if (validatePlayerField(currentPlayer, board[x, y]))
@@ -106,7 +106,7 @@ namespace checkers
             return Tuple.Create(x, y); 
         }
 
-        static Tuple<int, int> GetUserTargetCoordinates(char currentPlayer)
+        static Tuple<int, int> GetUserTargetCoordinates(char currentPlayer, Tuple<int, int> startingPoint)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -123,9 +123,18 @@ namespace checkers
 
                     if (validateUserInput(capitalizedInput))
                     {
-                        x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
-                        validUserEntry = true;
+                        
+                        if (validateUserMove(startingPoint, (x, y)))
+                        {
+                            validUserEntry = true;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Niedozwolony ruch!");
+                        }
                     }
                     else
                     {
@@ -166,7 +175,20 @@ namespace checkers
             return currentPlayer == chosenField;
         }
 
-        ///static Tuple<string, string>
+        static bool validateUserMove(Tuple<int, int> startingPoint, (int x, int y) targetPoint)
+        {
+            int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
+            int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
+
+            if (deltaX != deltaY)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         static int SwitchUserInput(char userHorizontalCoordinate)
         {
@@ -208,7 +230,7 @@ namespace checkers
             InitializeBoard();
             DrawBoard(currentPlayer);
             Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
-            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer);
+            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
             Console.WriteLine(startingCoordinates.Item1);
             ///reach the values by startingCoordinates.Item1, Item2, etc.
             switchCurrentPlayer(currentPlayer);
