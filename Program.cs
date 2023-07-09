@@ -5,6 +5,7 @@ namespace checkers
     internal class Program
     {
         private readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+        private const int BoardSize = 8;
 
         static char[,] board;
 
