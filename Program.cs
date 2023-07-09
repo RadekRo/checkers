@@ -48,11 +48,15 @@ namespace checkers
 
                     if (board[row, col] == 'W')
                     {
-                        checker = "⚫";
+                        ///checker = "⚫";
+                        checker = "W";
+
                     }
                     else if (board[row, col] == 'B')
                     {
-                        checker = "🔵";
+                        ///checker = "🔵";
+                        checker = "B";
+
                     }
                     else
                     {
@@ -65,16 +69,20 @@ namespace checkers
                 Console.WriteLine("   -------------------------------");
             }
             Console.ForegroundColor = ConsoleColor.Red;
-            string playerOneSymbol = "⚫";
-            string playerTwoSymbol = "🔵";
+            ///string playerOneSymbol = "⚫";
+            ///string playerTwoSymbol = "🔵";
+            string playerOneSymbol = "W";
+            string playerTwoSymbol = "B";
             string currentPlayerIcon;
             if (currentPlayer == 'W') 
             {
-                currentPlayerIcon = "⚫";
+                ///currentPlayerIcon = "⚫";
+                currentPlayerIcon = "W";
             }
             else
             {
-                currentPlayerIcon = "🔵";
+                ///currentPlayerIcon = "🔵";
+                currentPlayerIcon = "B";
             }
             Console.WriteLine("---------------------------------------------------");
             Console.WriteLine($"{playerOneSymbol} Gracz 1: " + playerOnePoints + " pkt");
