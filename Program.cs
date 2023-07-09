@@ -71,7 +71,7 @@ namespace checkers
             Console.ForegroundColor = ConsoleColor.Red;
             ///string playerOneSymbol = "⚫";
             ///string playerTwoSymbol = "🔵";
-            string playerOneSymbol = "W";
+            string playerOneSymbol = char.ConvertFromUtf32(0x1F535);
             string playerTwoSymbol = "B";
             string currentPlayerIcon;
             if (currentPlayer == 'W') 
