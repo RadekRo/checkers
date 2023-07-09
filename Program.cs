@@ -26,7 +26,6 @@ namespace checkers
         static void DrawBoard()
         {
             Console.Clear();
-            Console.WriteLine(board[1, 1]);
             Console.WriteLine("   A B C D E F G H");
             Console.WriteLine("  -----------------");
             for (int row = 1; row < 9; row++)
@@ -39,20 +38,29 @@ namespace checkers
                 Console.WriteLine();
                 Console.WriteLine("  -----------------");
             }
+            Console.WriteLine("Checkers Game by:");
+            Console.WriteLine("Juta Kozińska, Grzegorz Łabojko, Radosław Rocławski");
+            Console.WriteLine("---------------------------------------------------");
+
         }
 
-        static void GetUserCoordinates()
+        static void GetUserStartingPoint()
         {
             Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
-            var userPieceChoice = Console.ReadLine();
-            int x = SwitchUserInput(userPieceChoice[0]);
-            int y = int.Parse(userPieceChoice[1].ToString()) - 1;
+            var userInput = Console.ReadLine();
+            int x = SwitchUserInput(userInput[0]);
+            int y = int.Parse(userInput[1].ToString()) - 1;
             Console.WriteLine(board[x, y]);
 
-            Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
-            var userDestinationChoice = Console.ReadLine();
-            ///Console.WriteLine(board[SwitchUserInput(userDestinationChoice[0]), userDestinationChoice[1]]);
+        }
 
+        static void GetUserEndingPoint()
+        {
+            Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
+            var userInput = Console.ReadLine();
+            int x = SwitchUserInput(userInput[0]);
+            int y = int.Parse(userInput[1].ToString()) - 1;
+            Console.WriteLine(board[x, y]);
         }
 
         static int SwitchUserInput(char userHorizontalCoordinate)
@@ -98,12 +106,10 @@ namespace checkers
             {
                 /// main game loop curently set to unactive via gamePlay = false;
             }
-            Console.WriteLine("Checkers Game");
-            Console.WriteLine("Juta Kozińska, Grzegorz Łabojko, Radosław Rocławski");
             InitializeBoard();
             DrawBoard();
-            GetUserCoordinates();
-            DrawBoard();
+            GetUserStartingPoint();
+            GetUserEndingPoint();
         }
     }
 }
