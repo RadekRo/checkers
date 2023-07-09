@@ -48,30 +48,39 @@ namespace checkers
 
         static void GetUserStartingCoordinates(char currentUser)
         {
-            Console.Write("Podaj współrzędne pionka, którym chcesz się ruszyć (np. 'A1', 'H8'): ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            try
-            {
-                var userInput = Console.ReadLine();
-                string capitalizedInput = userInput.ToUpper();
+            bool validUserEntry = false;
 
-                if (validateUserInput(capitalizedInput))
-                {
-                    Console.WriteLine("Prawidłowe pole literowe");
-                    int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                    int y = SwitchUserInput(capitalizedInput[0]);
-                    Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
-                }
-                else
-                {
-                    Console.WriteLine("Nieprawidłowe pole literowe");
-                }
-            }
-            catch (FormatException)
+            while (!validUserEntry)
             {
-                Console.WriteLine("Nieprawidłowy format pola!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Podaj współrzędne pionka, którym chcesz się ruszyć (np. 'A1', 'H8'): ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                try
+                {
+                    var userInput = Console.ReadLine();
+                    string capitalizedInput = userInput.ToUpper();
+
+                    if (validateUserInput(capitalizedInput))
+                    {
+                        Console.WriteLine("Prawidłowe pole literowe");
+                        int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        int y = SwitchUserInput(capitalizedInput[0]);
+                        Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                        validUserEntry = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Pole poza zasięgiem planszy!");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Nieprawidłowy format pola!");
+                }
             }
-}
+        }
 
         static void GetUserTargetCoordinates(char currentUser)
         {
@@ -92,11 +101,13 @@ namespace checkers
                 }
                 else
                 {
-                    Console.WriteLine("Nieprawidłowe pole literowe");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Pole poza zasięgiem planszy!");
                 }
             }
             catch (FormatException)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Nieprawidłowy format pola!");
             }
         }
@@ -105,7 +116,8 @@ namespace checkers
         {
             if (!string.IsNullOrEmpty(userInput) 
                 && (avaliableLetters.Contains(userInput[0]))
-                && int.Parse(userInput.Substring(1)) <= BoardSize)
+                && int.Parse(userInput.Substring(1)) <= BoardSize
+                && int.Parse(userInput.Substring(1)) > 0)
             {
                 return true;
             }
