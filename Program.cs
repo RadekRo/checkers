@@ -28,32 +28,58 @@ namespace checkers
         static void DrawBoard(char currentPlayer, int playerOnePoints, int playerTwoPoints)
         {
             Console.Clear();
-            Console.WriteLine("     A   B   C   D   E   F   G   H   I   J");
-            Console.WriteLine("   -----------------------------------------");
+            Console.WriteLine("     A  B  C  D  E  F  G  H  I  J");
+            Console.WriteLine("   -------------------------------");
             for (int row = 0; row < BoardSize; row++)
             {
                 int boardsRow = row + 1;
+                string checker;
                 if (boardsRow == 10)
                 {
-                    Console.Write(boardsRow + " | ");
+                    Console.Write(boardsRow + " |");
                 }
                 else
                 {
-                    Console.Write(boardsRow + "  | ");
+                    Console.Write(boardsRow + "  |");
                 }
 
                 for (int col = 0; col < BoardSize; col++)
                 {
-                    Console.Write(board[row, col] + " | ");
+
+                    if (board[row, col] == 'W')
+                    {
+                        checker = "⚫";
+                    }
+                    else if (board[row, col] == 'B')
+                    {
+                        checker = "🔵";
+                    }
+                    else
+                    {
+                        checker = "  ";
+                    }
+                    Console.Write($"{checker}|");
+                
                 }
                 Console.WriteLine();
-                Console.WriteLine("   -----------------------------------------");
+                Console.WriteLine("   -------------------------------");
             }
             Console.ForegroundColor = ConsoleColor.Red;
+            string playerOneSymbol = "⚫";
+            string playerTwoSymbol = "🔵";
+            string currentPlayerIcon;
+            if (currentPlayer == 'W') 
+            {
+                currentPlayerIcon = "⚫";
+            }
+            else
+            {
+                currentPlayerIcon = "🔵";
+            }
             Console.WriteLine("---------------------------------------------------");
-            Console.WriteLine("\u25A0 Gracz 1 (W): " + playerOnePoints + " pkt");
-            Console.WriteLine("\u25A0 Gracz 2 (B): " + playerTwoPoints + " pkt");
-            Console.WriteLine("\u25A0 RUCH GRACZA: " + currentPlayer);
+            Console.WriteLine($"{playerOneSymbol} Gracz 1: " + playerOnePoints + " pkt");
+            Console.WriteLine($"{playerTwoSymbol} Gracz 2: " + playerTwoPoints + " pkt");
+            Console.WriteLine($"\u25A0\u25A0 RUCH GRACZA: {currentPlayerIcon}");
             Console.WriteLine("---------------------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -223,6 +249,7 @@ namespace checkers
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
             bool gamePlay = false;
             char currentPlayer = 'W';
             int playerOne = 0;
