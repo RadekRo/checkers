@@ -49,7 +49,6 @@ namespace checkers
         static void GetUserStartingCoordinates(char currentUser)
         {
             bool validUserEntry = false;
-
             while (!validUserEntry)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -58,7 +57,46 @@ namespace checkers
                 try
                 {
                     var userInput = Console.ReadLine();
-                    string capitalizedInput = userInput.ToUpper();
+                    var capitalizedInput = userInput.ToUpper();
+
+                    if (validateUserInput(capitalizedInput))
+                    {
+                        Console.WriteLine("Prawidłowe pole literowe");
+                        int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                        int y = SwitchUserInput(capitalizedInput[0]);
+                        Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                        validUserEntry = true;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Pole poza zasięgiem planszy!");
+                        ///Needed discussion if we want to use it or no
+                        ///Console.Write("\u001b[2A");
+                        ///Console.Write("\u001b[2K");
+                        ///Console.Write("\u001b[2B");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Nieprawidłowy format pola!");
+                }
+            }
+        }
+
+        static void GetUserTargetCoordinates(char currentUser)
+        {
+            bool validUserEntry = false;
+            while (!validUserEntry)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Podaj współrzędne pola, na którym chcesz postawić pionek (np. 'A1', 'H8'): ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                try
+                {
+                    var userInput = Console.ReadLine();
+                    var capitalizedInput = userInput.ToUpper();
 
                     if (validateUserInput(capitalizedInput))
                     {
@@ -79,36 +117,6 @@ namespace checkers
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Nieprawidłowy format pola!");
                 }
-            }
-        }
-
-        static void GetUserTargetCoordinates(char currentUser)
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Podaj współrzędne pola, na którym chcesz postawić pionek (np. 'A1', 'H8'): ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            try
-            {
-                var userInput = Console.ReadLine();
-                string capitalizedInput = userInput.ToUpper();
-
-                if (validateUserInput(capitalizedInput))
-                {
-                    Console.WriteLine("Prawidłowe pole literowe");
-                    int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                    int y = SwitchUserInput(capitalizedInput[0]);
-                    Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Pole poza zasięgiem planszy!");
-                }
-            }
-            catch (FormatException)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Nieprawidłowy format pola!");
             }
         }
 
