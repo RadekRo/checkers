@@ -7,7 +7,7 @@ namespace checkers
         static readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
         private const int BoardSize = 8;
 
-        static char[,] board;
+        static char[,]? board;
 
         static void InitializeBoard()
         {
@@ -46,7 +46,7 @@ namespace checkers
 
         }
 
-        static Tuple<int, int> GetUserStartingCoordinates(char currentUser)
+        static Tuple<int, int> GetUserStartingCoordinates(char currentPlayer)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -65,7 +65,15 @@ namespace checkers
                     {
                         x = int.Parse(capitalizedInput[1].ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
-                        validUserEntry = true;
+                        if (validatePlayerField(currentPlayer, board[x, y]))
+                        {
+                            validUserEntry = true;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("W podanej lokalizacji nie ma Twojego pionka!");
+                        }
                     }
                     else
                     {
@@ -86,7 +94,7 @@ namespace checkers
             return Tuple.Create(x, y); 
         }
 
-        static Tuple<int, int> GetUserTargetCoordinates(char currentUser)
+        static Tuple<int, int> GetUserTargetCoordinates(char currentPlayer)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -147,6 +155,12 @@ namespace checkers
                 return false;
             }
         }
+
+        static bool validatePlayerField(char currentPlayer, char chosenField)
+        {
+            return currentPlayer == chosenField;
+        }
+
         static int SwitchUserInput(char userHorizontalCoordinate)
         {
       
@@ -186,8 +200,8 @@ namespace checkers
             }
             InitializeBoard();
             DrawBoard(currentPlayer);
-            Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentUser);
-            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentUser);
+            Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
+            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer);
             Console.WriteLine(startingCoordinates.Item1);
             ///reach the values by startingCoordinates.Item1, Item2, etc.
             switchCurrentPlayer(currentPlayer);
