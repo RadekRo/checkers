@@ -50,7 +50,7 @@ namespace checkers
             var userInput = Console.ReadLine();
             int x = SwitchUserInput(userInput[0]);
             int y = int.Parse(userInput[1].ToString()) - 1;
-            Console.WriteLine(board[x, y]);
+            Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
 
         }
 
@@ -60,7 +60,7 @@ namespace checkers
             var userInput = Console.ReadLine();
             int x = SwitchUserInput(userInput[0]);
             int y = int.Parse(userInput[1].ToString()) - 1;
-            Console.WriteLine(board[x, y]);
+            Console.WriteLine("Stawiasz na polu zajętym przez: " + board[x, y]);
         }
 
         static int SwitchUserInput(char userHorizontalCoordinate)
