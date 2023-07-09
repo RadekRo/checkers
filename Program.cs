@@ -65,7 +65,7 @@ namespace checkers
             while (!validUserEntry)
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Podaj współrzędne pionka, którym chcesz się ruszyć (np. 'A1', 'H8'): ");
+                Console.Write("Podaj współrzędne pionka, którym chcesz się ruszyć (np. 'A1'): ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 try
                 {
@@ -114,7 +114,7 @@ namespace checkers
             while (!validUserEntry)
             {
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Podaj współrzędne pola, na którym chcesz postawić pionek (np. 'A1', 'H8'): ");
+                Console.Write("Podaj współrzędne pola, na którym chcesz postawić pionek (np. 'B2'): ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 try
                 {
@@ -231,7 +231,6 @@ namespace checkers
             DrawBoard(currentPlayer);
             Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
             Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
-            Console.WriteLine(startingCoordinates.Item1);
             ///reach the values by startingCoordinates.Item1, Item2, etc.
             switchCurrentPlayer(currentPlayer);
         }
