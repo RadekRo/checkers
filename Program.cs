@@ -47,39 +47,52 @@ namespace checkers
         static void GetUserStartingPoint(char currentUser)
         {
             Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
-            var userInput = Console.ReadLine();
-            string capitalizedInput = userInput.ToUpper();
-
-            if (validateUserInput(capitalizedInput))
+            try
             {
-                Console.WriteLine("Prawidłowe pole literowe");
-                int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                int y = SwitchUserInput(capitalizedInput[0]);
-                Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
-            }
-            else
-            {
-                Console.WriteLine("Nieprawidłowe pole literowe");
-            }
+                var userInput = Console.ReadLine();
+                string capitalizedInput = userInput.ToUpper();
 
-        }
+                if (validateUserInput(capitalizedInput))
+                {
+                    Console.WriteLine("Prawidłowe pole literowe");
+                    int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                    int y = SwitchUserInput(capitalizedInput[0]);
+                    Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                }
+                else
+                {
+                    Console.WriteLine("Nieprawidłowe pole literowe");
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Nieprawidłowy format pola!");
+            }
+}
 
         static void GetUserEndingPoint(char currentUser)
         {
             Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
-            var userInput = Console.ReadLine();
-            string capitalizedInput = userInput.ToUpper();
+            try
+            {
+                var userInput = Console.ReadLine();
+                string capitalizedInput = userInput.ToUpper();
 
-            if (validateUserInput(capitalizedInput))
-            {
-                Console.WriteLine("Prawidłowe pole literowe");
-                int x = int.Parse(capitalizedInput[1].ToString()) - 1;
-                int y = SwitchUserInput(capitalizedInput[0]);
-                Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                if (validateUserInput(capitalizedInput))
+                {
+                    Console.WriteLine("Prawidłowe pole literowe");
+                    int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                    int y = SwitchUserInput(capitalizedInput[0]);
+                    Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+                }
+                else
+                {
+                    Console.WriteLine("Nieprawidłowe pole literowe");
+                }
             }
-            else
+            catch (FormatException)
             {
-                Console.WriteLine("Nieprawidłowe pole literowe");
+                Console.WriteLine("Nieprawidłowy format pola!");
             }
         }
 
@@ -123,13 +136,6 @@ namespace checkers
                     modifiedInput = 0; break;
             }
             return modifiedInput;
-        }
-   
-        public enum PieceColor
-        {
-            None,
-            White,
-            Black
         }
 
         static void Main(string[] args)
