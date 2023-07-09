@@ -122,6 +122,17 @@ namespace checkers
             return Tuple.Create(x, y);
         }
 
+        static char switchCurrentPlayer(char currentPlayer) 
+        {
+            if (currentPlayer == 'W')
+            {
+                return 'B';
+            } 
+            else
+            {
+                return 'W';
+            }
+        }
         static bool validateUserInput(string userInput)
         {
             if (!string.IsNullOrEmpty(userInput) 
@@ -168,17 +179,18 @@ namespace checkers
         static void Main(string[] args)
         {
             bool gamePlay = false;
-            char currentUser = 'W';
+            char currentPlayer = 'W';
             while (gamePlay)
             {
                 /// main game loop curently set to unactive via gamePlay = false;
             }
             InitializeBoard();
-            DrawBoard(currentUser);
+            DrawBoard(currentPlayer);
             Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentUser);
             Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentUser);
             Console.WriteLine(startingCoordinates.Item1);
             ///reach the values by startingCoordinates.Item1, Item2, etc.
+            switchCurrentPlayer(currentPlayer);
         }
     }
 }
