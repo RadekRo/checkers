@@ -4,7 +4,7 @@ namespace checkers
 {
     internal class Program
     {
-        private readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+        static readonly char[] avaliableLetters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
         private const int BoardSize = 8;
 
         static char[,] board;
@@ -48,10 +48,19 @@ namespace checkers
         {
             Console.Write("Podaj współrzędne pionka którym chcesz się ruszyć(np 'A1', 'H8'): ");
             var userInput = Console.ReadLine();
+            string capitalizedInput = userInput.ToUpper();
 
-            int x = SwitchUserInput(Char.ToUpper(userInput[0]));
-            int y = int.Parse(userInput[1].ToString()) - 1;
-            Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+            if (validateUserInput(capitalizedInput))
+            {
+                Console.WriteLine("Prawidłowe pole literowe");
+                int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                int y = SwitchUserInput(capitalizedInput[0]);
+                Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+            }
+            else
+            {
+                Console.WriteLine("Nieprawidłowe pole literowe");
+            }
 
         }
 
@@ -59,11 +68,34 @@ namespace checkers
         {
             Console.Write("Podaj współrzędne pola na którym chcesz postawić pionek (np 'A1', 'H8'): ");
             var userInput = Console.ReadLine();
-            int x = SwitchUserInput(userInput[0]);
-            int y = int.Parse(userInput[1].ToString()) - 1;
-            Console.WriteLine("Stawiasz na polu zajętym przez: " + board[x, y]);
+            string capitalizedInput = userInput.ToUpper();
+
+            if (validateUserInput(capitalizedInput))
+            {
+                Console.WriteLine("Prawidłowe pole literowe");
+                int x = int.Parse(capitalizedInput[1].ToString()) - 1;
+                int y = SwitchUserInput(capitalizedInput[0]);
+                Console.WriteLine("Wybrałeś pole zajęte przez: " + board[x, y]);
+            }
+            else
+            {
+                Console.WriteLine("Nieprawidłowe pole literowe");
+            }
         }
 
+        static bool validateUserInput(string userInput)
+        {
+            if (!string.IsNullOrEmpty(userInput) 
+                && (avaliableLetters.Contains(userInput[0]))
+                && int.Parse(userInput.Substring(1)) <= BoardSize)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         static int SwitchUserInput(char userHorizontalCoordinate)
         {
       
@@ -103,14 +135,15 @@ namespace checkers
         static void Main(string[] args)
         {
             bool gamePlay = false;
+            char currentUser = 'W';
             while (gamePlay)
             {
                 /// main game loop curently set to unactive via gamePlay = false;
             }
             InitializeBoard();
             DrawBoard();
-            GetUserStartingPoint('W');
-            GetUserEndingPoint('W');
+            GetUserStartingPoint(currentUser);
+            GetUserEndingPoint(currentUser);
         }
     }
 }
