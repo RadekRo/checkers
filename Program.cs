@@ -25,7 +25,7 @@ namespace checkers
                 { 'W', '-', 'W', '-', 'W', '-', 'W', '-', 'W', '-' }
             };
         }
-        static void DrawBoard(char currentPlayer)
+        static void DrawBoard(char currentPlayer, int playerOnePoints, int playerTwoPoints)
         {
             Console.Clear();
             Console.WriteLine("     A   B   C   D   E   F   G   H   I   J");
@@ -51,6 +51,8 @@ namespace checkers
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("\u25A0 Gracz 1 (W): " + playerOnePoints + " pkt");
+            Console.WriteLine("\u25A0 Gracz 2 (B): " + playerTwoPoints + " pkt");
             Console.WriteLine("\u25A0 RUCH GRACZA: " + currentPlayer);
             Console.WriteLine("---------------------------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
@@ -223,12 +225,14 @@ namespace checkers
         {
             bool gamePlay = false;
             char currentPlayer = 'W';
+            int playerOne = 0;
+            int playerTwo = 0;
             while (gamePlay)
             {
                 /// main game loop curently set to unactive via gamePlay = false;
             }
             InitializeBoard();
-            DrawBoard(currentPlayer);
+            DrawBoard(currentPlayer, playerOne, playerTwo);
             Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
             Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
             ///reach the values by startingCoordinates.Item1, Item2, etc.
