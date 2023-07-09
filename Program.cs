@@ -11,9 +11,8 @@ namespace checkers
 
         static void InitializeBoard()
         {
-            board = new char[BoardSize + 1, BoardSize]
+            board = new char[BoardSize, BoardSize]
             {
-                { '-', '-', '-', '-', '-', '-', '-', '-' },
                 { '-', 'B', '-', 'B', '-', 'B', '-', 'B' },
                 { 'B', '-', 'B', '-', 'B', '-', 'B', '-' },
                 { '-', '-', '-', '-', '-', '-', '-', '-' },
@@ -29,10 +28,10 @@ namespace checkers
             Console.Clear();
             Console.WriteLine("   A B C D E F G H");
             Console.WriteLine("  -----------------");
-            for (int row = 1; row < 9; row++)
+            for (int row = 0; row < BoardSize; row++)
             {
-                Console.Write(row + " |");
-                for (int col = 0; col < 8; col++)
+                Console.Write(row + 1 + " |");
+                for (int col = 0; col < BoardSize; col++)
                 {
                     Console.Write(board[row, col] + "|");
                 }
