@@ -72,21 +72,21 @@ namespace checkers
             switch (userHorizontalCoordinate)
             {
                 case 'A':
-                    modifiedInput = 1; break;
+                    modifiedInput = 0; break;
                 case 'B':
-                    modifiedInput = 2; break;
+                    modifiedInput = 1; break;
                 case 'C':
-                    modifiedInput = 3; break;
+                    modifiedInput = 2; break;
                 case 'D':
-                    modifiedInput = 4; break;
+                    modifiedInput = 3; break;
                 case 'E':
-                    modifiedInput = 5; break;
+                    modifiedInput = 4; break;
                 case 'F':
-                    modifiedInput = 6; break;
+                    modifiedInput = 5; break;
                 case 'G':
-                    modifiedInput = 7; break;
+                    modifiedInput = 6; break;
                 case 'H':
-                    modifiedInput = 8; break;
+                    modifiedInput = 7; break;
                 default:
                     modifiedInput = 0; break;
             }
