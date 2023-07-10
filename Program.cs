@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace checkers
 {
@@ -10,6 +11,7 @@ namespace checkers
         static char[,]? board;
         static int playerOne = 0;
         static int playerTwo = 0;
+        static char currentPlayer = 'W';
 
         static void InitializeBoard()
         {
@@ -30,8 +32,11 @@ namespace checkers
         static void DrawBoard(char currentPlayer, int playerOnePoints, int playerTwoPoints)
         {
             Console.Clear();
-            Console.WriteLine("     A  B  C  D  E  F  G  H  I  J");
-            Console.WriteLine("   -------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            ///Console.WriteLine("     A  B  C  D  E  F  G  H  I  J");
+            ///Console.WriteLine("   -------------------------------");
+            Console.WriteLine("     A   B   C   D   E   F   G   H   I   J");
+            Console.WriteLine("   -----------------------------------------");
             for (int row = 0; row < BoardSize; row++)
             {
                 int boardsRow = row + 1;
@@ -50,41 +55,45 @@ namespace checkers
 
                     if (board[row, col] == 'W')
                     {
-                        checker = char.ConvertFromUtf32(0x1F535);
-                        ///checker = "W";
+                        ///checker = char.ConvertFromUtf32(0x1F535);
+                        checker = " W ";
 
                     }
                     else if (board[row, col] == 'B')
                     {
-                        checker = char.ConvertFromUtf32(0x1F534);
-                        ///checker = "B";
+                        ///checker = char.ConvertFromUtf32(0x1F534);
+                        checker = " B ";
 
                     }
                     else
                     {
-                        checker = "  ";
+                        ///checker = "  ";
+                        checker = "   ";
                     }
                     Console.Write($"{checker}|");
                 
                 }
                 Console.WriteLine();
-                Console.WriteLine("   -------------------------------");
+                ///Console.WriteLine("   -------------------------------");
+                Console.WriteLine("   -----------------------------------------");
+
             }
             Console.ForegroundColor = ConsoleColor.Red;
-            ///string playerOneSymbol = "⚫";
-            ///string playerTwoSymbol = "🔵";
-            string playerOneSymbol = char.ConvertFromUtf32(0x1F535);
-            string playerTwoSymbol = char.ConvertFromUtf32(0x1F534);
-            string currentPlayerIcon;
+            ///string playerOneSymbol = char.ConvertFromUtf32(0x1F535);
+            ///string playerTwoSymbol = char.ConvertFromUtf32(0x1F534);
+            char playerOneSymbol = 'W';
+            char playerTwoSymbol = 'B';
+            ///string currentPlayerIcon;
+            char currentPlayerIcon;
             if (currentPlayer == 'W') 
             {
-                currentPlayerIcon = char.ConvertFromUtf32(0x1F535);
-                ///currentPlayerIcon = "W";
+                ///currentPlayerIcon = char.ConvertFromUtf32(0x1F535);
+                currentPlayerIcon = 'W';
             }
             else
             {
-                currentPlayerIcon = char.ConvertFromUtf32(0x1F534);
-                ///currentPlayerIcon = "B";
+                ///currentPlayerIcon = char.ConvertFromUtf32(0x1F534);
+                currentPlayerIcon = 'B';
             }
             Console.WriteLine("---------------------------------------------------");
             Console.WriteLine($"{playerOneSymbol} Gracz 1: " + playerOnePoints + " pkt");
@@ -117,7 +126,15 @@ namespace checkers
 
                         if (validatePlayerField(currentPlayer, board[x, y]))
                         {
-                            validUserEntry = true;
+                            if (!IsBlocked(new Tuple<int, int>(x, y)))
+                            {
+                                validUserEntry = true;
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Ten pionek nie ma możliwości ruchu!");
+                            }
                         }
                         else
                         {
@@ -245,6 +262,7 @@ namespace checkers
             {
                 int passedX = (startingPoint.Item1 + targetPoint.x) / 2;
                 int passedY = (startingPoint.Item2 + targetPoint.y) / 2;
+
                 if (currentPlayer == 'W' 
                     && board[passedX, passedY] == 'B')
                 {
@@ -311,11 +329,70 @@ namespace checkers
             }
         }
 
+        static bool IsBlocked(Tuple<int, int> pickedChecker)
+        { 
+            int row = pickedChecker.Item1;
+            int col = pickedChecker.Item2;
+
+            if (checkField(new Tuple<int, int>(row - 1, col - 1), pickedChecker))
+            {
+                return false;
+            }
+            else if (checkField(new Tuple<int, int>(row + 1, col + 1), pickedChecker))
+            {
+                return false;
+            }
+            else if (checkField(new Tuple<int, int>(row - 1, col + 1), pickedChecker))
+            {
+                return false;
+            }
+            else if (checkField(new Tuple<int, int>(row + 1, col - 1), pickedChecker))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        static bool checkField(Tuple<int, int> checkedField, Tuple<int, int> currentPosition)
+        {
+            try 
+            {
+                if (board[checkedField.Item1, checkedField.Item2] == '-')
+                {
+                    return true;
+                }
+                else if (board[checkedField.Item1, checkedField.Item2] == currentPlayer)
+                {
+                    return false;
+                }
+                else
+                {
+                    int newX = checkedField.Item1 - (currentPosition.Item1 - checkedField.Item1);
+                    int newY = checkedField.Item2 - (currentPosition.Item2 - checkedField.Item2);
+
+                    if (board[newX, newY] == '-')
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return false;
+            }
+        }
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             bool gamePlay = true;
-            char currentPlayer = 'W';
             InitializeBoard();
             while (gamePlay)
             {
