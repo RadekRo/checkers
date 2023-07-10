@@ -104,7 +104,7 @@ namespace checkers
 
         }
 
-        static Tuple<int, int> GetUserStartingCoordinates(char currentPlayer)
+        static Tuple<int, int> GetUserStartingCoordinates()
         {
             bool validUserEntry = false;
             int x = 0;
@@ -124,7 +124,7 @@ namespace checkers
                         x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
 
-                        if (validatePlayerField(currentPlayer, board[x, y]))
+                        if (validatePlayerField(board[x, y]))
                         {
                             if (!IsBlocked(new Tuple<int, int>(x, y)))
                             {
@@ -161,7 +161,7 @@ namespace checkers
             return Tuple.Create(x, y); 
         }
 
-        static Tuple<int, int> GetUserTargetCoordinates(char currentPlayer, Tuple<int, int> startingPoint)
+        static Tuple<int, int> GetUserTargetCoordinates(Tuple<int, int> startingPoint)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -181,7 +181,7 @@ namespace checkers
                         x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
                         
-                        if (validateUserMove(startingPoint, (x, y), currentPlayer))
+                        if (validateUserMove(startingPoint, (x, y)))
                         {
                             if (Math.Abs(startingPoint.Item1 - x) == 1)
                             {
@@ -196,7 +196,7 @@ namespace checkers
                                 board[startingPoint.Item1, startingPoint.Item2] = '-';
                                 board[enemyX, enemyY] = '-';
                                 board[x, y] = currentPlayer;
-                                UpdateScore(currentPlayer);
+                                UpdateScore();
                             }
                             validUserEntry = true;
                         }
@@ -221,7 +221,7 @@ namespace checkers
             return Tuple.Create(x, y);
         }
 
-        static char switchCurrentPlayer(char currentPlayer) 
+        static char switchCurrentPlayer() 
         {
             if (currentPlayer == 'W')
             {
@@ -240,12 +240,12 @@ namespace checkers
                     && int.Parse(userInput.Substring(1)) > 0);
         }
 
-        static bool validatePlayerField(char currentPlayer, char chosenField)
+        static bool validatePlayerField(char chosenField)
         {
             return currentPlayer == chosenField;
         }
 
-        static bool validateUserMove(Tuple<int, int> startingPoint, (int x, int y) targetPoint, char currentPlayer)
+        static bool validateUserMove(Tuple<int, int> startingPoint, (int x, int y) targetPoint)
         {
             int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
             int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
@@ -317,7 +317,7 @@ namespace checkers
             return modifiedInput;
         }
 
-        static void UpdateScore(char currentPlayer)
+        static void UpdateScore()
         {
             if (currentPlayer == 'W')
             {
@@ -397,10 +397,9 @@ namespace checkers
             while (gamePlay)
             {
                 DrawBoard(currentPlayer, playerOne, playerTwo);
-                Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
-                Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
-                ///reach the values by startingCoordinates.Item1, Item2, etc.
-                currentPlayer = switchCurrentPlayer(currentPlayer);
+                Tuple<int, int> startingCoordinates = GetUserStartingCoordinates();
+                Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(startingCoordinates);
+                currentPlayer = switchCurrentPlayer();
 
             }
         }
