@@ -249,7 +249,15 @@ namespace checkers
         {
             int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
             int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
-            ///Console.WriteLine(board[targetPoint.x, targetPoint.y]);
+
+            if (currentPlayer == 'W' && startingPoint.Item1 < targetPoint.x)
+            {
+                return false;
+            }
+            else if (currentPlayer == 'B' && startingPoint.Item1 > targetPoint.x)
+            {
+                return false;
+            }
 
             if (deltaX != deltaY 
                 || deltaX > 2 
