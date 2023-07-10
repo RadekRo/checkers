@@ -161,7 +161,7 @@ namespace checkers
             return Tuple.Create(x, y); 
         }
 
-        static Tuple<int, int> GetUserTargetCoordinates(Tuple<int, int> startingPoint)
+        static Tuple<int, int> SolvePlayersMove(Tuple<int, int> startingPoint)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -268,16 +268,16 @@ namespace checkers
             }
             else if (deltaX == 2)
             {
-                int passedX = (startingPoint.Item1 + targetPoint.x) / 2;
-                int passedY = (startingPoint.Item2 + targetPoint.y) / 2;
+                int passedByFieldX = (startingPoint.Item1 + targetPoint.x) / 2;
+                int passedByFieldY = (startingPoint.Item2 + targetPoint.y) / 2;
 
                 if (currentPlayer == 'W' 
-                    && board[passedX, passedY] == 'B')
+                    && board[passedByFieldX, passedByFieldY] == 'B')
                 {
                     return true;
                 }
                 else if (currentPlayer == 'B'
-                    && board[passedX, passedY] == 'W')
+                    && board[passedByFieldX, passedByFieldY] == 'W')
                 {
                     return true;
                 }
@@ -406,7 +406,7 @@ namespace checkers
             {
                 DrawBoard(currentPlayer, playerOne, playerTwo);
                 Tuple<int, int> startingCoordinates = GetUserStartingCoordinates();
-                Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(startingCoordinates);
+                SolvePlayersMove(startingCoordinates);
                 currentPlayer = switchCurrentPlayer();
 
             }
