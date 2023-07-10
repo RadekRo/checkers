@@ -48,14 +48,14 @@ namespace checkers
 
                     if (board[row, col] == 'W')
                     {
-                        ///checker = "⚫";
-                        checker = "W";
+                        checker = char.ConvertFromUtf32(0x1F535);
+                        ///checker = "W";
 
                     }
                     else if (board[row, col] == 'B')
                     {
-                        ///checker = "🔵";
-                        checker = "B";
+                        checker = char.ConvertFromUtf32(0x1F534);
+                        ///checker = "B";
 
                     }
                     else
@@ -72,17 +72,17 @@ namespace checkers
             ///string playerOneSymbol = "⚫";
             ///string playerTwoSymbol = "🔵";
             string playerOneSymbol = char.ConvertFromUtf32(0x1F535);
-            string playerTwoSymbol = "B";
+            string playerTwoSymbol = char.ConvertFromUtf32(0x1F534);
             string currentPlayerIcon;
             if (currentPlayer == 'W') 
             {
-                ///currentPlayerIcon = "⚫";
-                currentPlayerIcon = "W";
+                currentPlayerIcon = char.ConvertFromUtf32(0x1F535);
+                ///currentPlayerIcon = "W";
             }
             else
             {
-                ///currentPlayerIcon = "🔵";
-                currentPlayerIcon = "B";
+                currentPlayerIcon = char.ConvertFromUtf32(0x1F534);
+                ///currentPlayerIcon = "B";
             }
             Console.WriteLine("---------------------------------------------------");
             Console.WriteLine($"{playerOneSymbol} Gracz 1: " + playerOnePoints + " pkt");
@@ -121,6 +121,9 @@ namespace checkers
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("W podanej lokalizacji nie ma Twojego pionka!");
+                            Console.WriteLine(board[x, y]);
+                            Console.WriteLine(x);
+                            Console.WriteLine(y);
                         }
                     }
                     else
@@ -162,14 +165,29 @@ namespace checkers
                         x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
                         
-                        if (validateUserMove(startingPoint, (x, y)))
+                        if (validateUserMove(startingPoint, (x, y), currentPlayer))
                         {
+                            if (Math.Abs(startingPoint.Item1 - x) == 1)
+                            {
+                                board[startingPoint.Item1, startingPoint.Item2] = '-';
+                                board[x, y] = currentPlayer;
+                            }
+                            else
+                            {
+                                int enemyX = (startingPoint.Item1 + x) / 2;
+                                int enemyY = (startingPoint.Item2 + y) / 2;
+
+                                board[startingPoint.Item1, startingPoint.Item2] = '-';
+                                board[enemyX, enemyY] = '-';
+                                board[x, y] = currentPlayer;
+                            }
                             validUserEntry = true;
                         }
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Niedozwolony ruch!");
+                            Console.WriteLine(board[x, y]);
                         }
                     }
                     else
@@ -211,14 +229,37 @@ namespace checkers
             return currentPlayer == chosenField;
         }
 
-        static bool validateUserMove(Tuple<int, int> startingPoint, (int x, int y) targetPoint)
+        static bool validateUserMove(Tuple<int, int> startingPoint, (int x, int y) targetPoint, char currentPlayer)
         {
             int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
             int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
+            ///Console.WriteLine(board[targetPoint.x, targetPoint.y]);
 
-            if (deltaX != deltaY)
+            if (deltaX != deltaY 
+                || deltaX > 2 
+                || deltaY > 2 
+                || board[targetPoint.x, targetPoint.y] != '-')
             {
                 return false;
+            }
+            else if (deltaX == 2)
+            {
+                int passedX = (startingPoint.Item1 + targetPoint.x) / 2;
+                int passedY = (startingPoint.Item2 + targetPoint.y) / 2;
+                if (currentPlayer == 'W' 
+                    && board[passedX, passedY] == 'B')
+                {
+                    return true;
+                }
+                else if (currentPlayer == 'B'
+                    && board[passedX, passedY] == 'W')
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -249,6 +290,10 @@ namespace checkers
                     modifiedInput = 6; break;
                 case 'H':
                     modifiedInput = 7; break;
+                case 'I':
+                    modifiedInput = 8; break;
+                case 'J':
+                    modifiedInput = 9; break;
                 default:
                     modifiedInput = 0; break;
             }
@@ -258,20 +303,20 @@ namespace checkers
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
-            bool gamePlay = false;
+            bool gamePlay = true;
             char currentPlayer = 'W';
             int playerOne = 0;
             int playerTwo = 0;
+            InitializeBoard();
             while (gamePlay)
             {
-                /// main game loop curently set to unactive via gamePlay = false;
+                DrawBoard(currentPlayer, playerOne, playerTwo);
+                Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
+                Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
+                ///reach the values by startingCoordinates.Item1, Item2, etc.
+                currentPlayer = switchCurrentPlayer(currentPlayer);
+
             }
-            InitializeBoard();
-            DrawBoard(currentPlayer, playerOne, playerTwo);
-            Tuple<int, int> startingCoordinates = GetUserStartingCoordinates(currentPlayer);
-            Tuple<int, int> targetCoordinates = GetUserTargetCoordinates(currentPlayer, startingCoordinates);
-            ///reach the values by startingCoordinates.Item1, Item2, etc.
-            switchCurrentPlayer(currentPlayer);
         }
     }
 }
