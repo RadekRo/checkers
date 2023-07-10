@@ -161,7 +161,7 @@ namespace checkers
             return Tuple.Create(x, y); 
         }
 
-        static Tuple<int, int> SolvePlayersMove(Tuple<int, int> startingPoint)
+        static Tuple<int, int> SolvePlayerMove(Tuple<int, int> startingPoint)
         {
             bool validUserEntry = false;
             int x = 0;
@@ -406,7 +406,7 @@ namespace checkers
             {
                 DrawBoard(currentPlayer, playerOne, playerTwo);
                 Tuple<int, int> startingCoordinates = GetUserStartingCoordinates();
-                SolvePlayersMove(startingCoordinates);
+                SolvePlayerMove(startingCoordinates);
                 currentPlayer = switchCurrentPlayer();
 
             }
