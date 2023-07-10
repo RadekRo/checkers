@@ -8,6 +8,8 @@ namespace checkers
         private const int BoardSize = 10;
 
         static char[,]? board;
+        static int playerOne = 0;
+        static int playerTwo = 0;
 
         static void InitializeBoard()
         {
@@ -121,9 +123,6 @@ namespace checkers
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("W podanej lokalizacji nie ma Twojego pionka!");
-                            Console.WriteLine(board[x, y]);
-                            Console.WriteLine(x);
-                            Console.WriteLine(y);
                         }
                     }
                     else
@@ -180,6 +179,7 @@ namespace checkers
                                 board[startingPoint.Item1, startingPoint.Item2] = '-';
                                 board[enemyX, enemyY] = '-';
                                 board[x, y] = currentPlayer;
+                                UpdateScore(currentPlayer);
                             }
                             validUserEntry = true;
                         }
@@ -187,7 +187,6 @@ namespace checkers
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Niedozwolony ruch!");
-                            Console.WriteLine(board[x, y]);
                         }
                     }
                     else
@@ -300,13 +299,23 @@ namespace checkers
             return modifiedInput;
         }
 
+        static void UpdateScore(char currentPlayer)
+        {
+            if (currentPlayer == 'W')
+            {
+                playerOne++;
+            }
+            else
+            {
+                playerTwo++;
+            }
+        }
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             bool gamePlay = true;
             char currentPlayer = 'W';
-            int playerOne = 0;
-            int playerTwo = 0;
             InitializeBoard();
             while (gamePlay)
             {
