@@ -71,7 +71,7 @@ namespace checkers
                         checker = "   ";
                     }
                     Console.Write($"{checker}|");
-                
+
                 }
                 Console.WriteLine();
                 ///Console.WriteLine("   -------------------------------");
@@ -85,7 +85,7 @@ namespace checkers
             char playerTwoSymbol = 'B';
             ///string currentPlayerIcon;
             char currentPlayerIcon;
-            if (currentPlayer == 'W') 
+            if (currentPlayer == 'W')
             {
                 ///currentPlayerIcon = char.ConvertFromUtf32(0x1F535);
                 currentPlayerIcon = 'W';
@@ -158,7 +158,7 @@ namespace checkers
                     Console.WriteLine("Nieprawidłowy format pola!");
                 }
             }
-            return Tuple.Create(x, y); 
+            return Tuple.Create(x, y);
         }
 
         static Tuple<int, int> SolvePlayerMove(Tuple<int, int> startingPoint)
@@ -180,7 +180,7 @@ namespace checkers
                     {
                         x = int.Parse(capitalizedInput.Substring(1).ToString()) - 1;
                         y = SwitchUserInput(capitalizedInput[0]);
-                        
+
                         if (validateUserMove(startingPoint, (x, y)))
                         {
                             if (Math.Abs(startingPoint.Item1 - x) == 1)
@@ -221,12 +221,12 @@ namespace checkers
             return Tuple.Create(x, y);
         }
 
-        static char switchCurrentPlayer() 
+        static char switchCurrentPlayer()
         {
             if (currentPlayer == 'W')
             {
                 return 'B';
-            } 
+            }
             else
             {
                 return 'W';
@@ -250,18 +250,18 @@ namespace checkers
             int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
             int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
 
-            if (currentPlayer == 'W' && startingPoint.Item1 < targetPoint.x)
-            {
-                return false;
-            }
-            else if (currentPlayer == 'B' && startingPoint.Item1 > targetPoint.x)
-            {
-                return false;
-            }
+            //if (currentPlayer == 'W' && startingPoint.Item1 < targetPoint.x)
+            //{
+            //    return false;
+            //}
+            //else if (currentPlayer == 'B' && startingPoint.Item1 > targetPoint.x)
+            //{
+            //    return false;
+            //}
 
-            if (deltaX != deltaY 
-                || deltaX > 2 
-                || deltaY > 2 
+            if (deltaX != deltaY
+                || deltaX > 2
+                || deltaY > 2
                 || board[targetPoint.x, targetPoint.y] != '-')
             {
                 return false;
@@ -271,7 +271,7 @@ namespace checkers
                 int passedByFieldX = (startingPoint.Item1 + targetPoint.x) / 2;
                 int passedByFieldY = (startingPoint.Item2 + targetPoint.y) / 2;
 
-                if (currentPlayer == 'W' 
+                if (currentPlayer == 'W'
                     && board[passedByFieldX, passedByFieldY] == 'B')
                 {
                     return true;
@@ -294,7 +294,7 @@ namespace checkers
 
         static int SwitchUserInput(char userHorizontalCoordinate)
         {
-      
+
             int modifiedInput;
 
             switch (userHorizontalCoordinate)
@@ -338,7 +338,7 @@ namespace checkers
         }
 
         static bool IsBlocked(Tuple<int, int> pickedChecker)
-        { 
+        {
             int row = pickedChecker.Item1;
             int col = pickedChecker.Item2;
 
@@ -366,7 +366,7 @@ namespace checkers
 
         static bool checkField(Tuple<int, int> checkedField, Tuple<int, int> currentPosition)
         {
-            try 
+            try
             {
                 if (board[checkedField.Item1, checkedField.Item2] == '-')
                 {
@@ -396,6 +396,19 @@ namespace checkers
                 return false;
             }
         }
+        static bool CheckGameEnd()
+        {
+            if (playerOne >= 20 || playerTwo >= 20)
+            {
+                DrawBoard(currentPlayer, playerOne, playerTwo);
+                char winner = playerOne >= 20 ? 'W' : 'B';
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Gracz {winner} wygrał grę!");
+                Console.ReadLine();
+                return true;
+            }
+            return false;
+        }
 
         static void Main(string[] args)
         {
@@ -408,7 +421,10 @@ namespace checkers
                 Tuple<int, int> startingCoordinates = GetUserStartingCoordinates();
                 SolvePlayerMove(startingCoordinates);
                 currentPlayer = switchCurrentPlayer();
-
+                if (CheckGameEnd())
+                {
+                    gamePlay = false;
+                }
             }
         }
     }
