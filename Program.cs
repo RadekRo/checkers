@@ -146,10 +146,6 @@ namespace checkers
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Pole poza zasięgiem planszy!");
-                        ///Needed discussion if we want to use it or no
-                        ///Console.Write("\u001b[2A");
-                        ///Console.Write("\u001b[2K");
-                        ///Console.Write("\u001b[2B");
                     }
                 }
                 catch (FormatException)
@@ -250,6 +246,7 @@ namespace checkers
             int deltaX = Math.Abs(startingPoint.Item1 - targetPoint.x);
             int deltaY = Math.Abs(startingPoint.Item2 - targetPoint.y);
 
+            //Blocking the backward move of the checkers
             //if (currentPlayer == 'W' && startingPoint.Item1 < targetPoint.x)
             //{
             //    return false;
